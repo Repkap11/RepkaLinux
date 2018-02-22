@@ -3,4 +3,4 @@ Version: 0.1
 Maintainer: Paul Repka
 Architecture: all
 Description: All the packages for RepkLinux
-Depends: git, i3-wm, feh, dunst
+Depends: dunst, git, feh,i3, suckless-tools, curl, vlc, gparted, vim, htop, consolekit, compton, gedit, gimp, gitk, google-chrome-stable, lxappearance, nodejs, npm, adb, php, php-curl, php-xml, python-pip, redshift, runescape-launcher, sublime-text, x11vnc, xbindkeys

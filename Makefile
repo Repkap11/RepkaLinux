@@ -1,5 +1,6 @@
 #Start top level commands
 PACKAGE_NAME = repkalinux
+TEST_DEPEND = dunst
 
 default: test
 
@@ -8,13 +9,13 @@ configure:
 	sudo apt install gdebi
 
 test: Makefile
-	#Force uninstall before build and install
-	$(MAKE) untest
-	$(MAKE) build install
+	@#Force uninstall before build and install
+	@$(MAKE) untest
+	@$(MAKE) build install
 	@echo "Test Done..."
 
 untest: clean uninstall
-	sudo apt remove dunst -y
+	sudo apt remove $(TEST_DEPEND) -y
 
 install: build
 	@echo "\n##Starting Install###"
