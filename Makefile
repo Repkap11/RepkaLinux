@@ -18,11 +18,11 @@ untest: clean uninstall
 	sudo apt remove $(TEST_DEPEND) -y
 
 install: build
-	@echo "\n##Starting Install###"
+	@echo "\n### Starting Install ###"
 	sudo gdebi --n out/$(PACKAGE_NAME).deb
 	#sudo apt install --only-upgrade $(PACKAGE_NAME)
 	sudo apt install -f $(PACKAGE_NAME)
-	@echo "##Ending Install###\n"
+	@echo "### Ending Install ###\n"
 
 uninstall:
 	sudo dpkg --purge $(PACKAGE_NAME)

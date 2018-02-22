@@ -1,0 +1,2 @@
+#!/bin/bash
+~/Software/factorio/bin/x64/factorio "$@"

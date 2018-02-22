@@ -1,0 +1,3 @@
+#!/bin/bash
+#compton --backend glx --vsync opengl -b
+compton --backend glx --vsync opengl-swc -b

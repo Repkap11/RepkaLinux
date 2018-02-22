@@ -1,0 +1,3 @@
+#~/bin/bash
+export MESA_GL_VERSION_OVERRIDE=3.0
+/usr/bin/runescape-launcher

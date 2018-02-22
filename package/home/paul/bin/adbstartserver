@@ -1,0 +1,3 @@
+#!/bin/bash
+adb kill-server
+adb -a -P 5037 fork-server server&

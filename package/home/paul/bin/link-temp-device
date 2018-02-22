@@ -1,0 +1,10 @@
+#!/bin/bash
+rm ~/bin/temp_1_input
+FILE0=/sys/class/hwmon/hwmon0/temp1_input
+FILE1=/sys/class/hwmon/hwmon1/temp1_input
+if [ -f $FILE0 ];
+then
+   ln -s $FILE0 ~/bin/temp_1_input
+else
+   ln -s $FILE1 ~/bin/temp_1_input
+fi

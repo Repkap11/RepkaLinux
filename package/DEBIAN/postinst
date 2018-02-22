@@ -1,1 +1,3 @@
-echo "Running post script..."
+echo "\n### Starting post script ###"
+
+echo "### Ending post script ###\n"

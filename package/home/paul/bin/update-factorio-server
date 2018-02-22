@@ -1,0 +1,6 @@
+#!/bin/bash
+FACTORIO_PATH=`which factorio`
+FACTORIO_VERSION=`$FACTORIO_PATH --version | grep Version | grep -Po '\d*\.\d*\.\d*'`
+ssh factorio@repkap11.com bash update-factorio.sh $FACTORIO_VERSION
+
+

@@ -1,0 +1,8 @@
+#!/bin/bash
+window_name=$(xdotool getactivewindow getwindowname)
+if [ "$window_name" == "RuneScape" ] || [ "$window_name" == "Factorio" ] || [ "$window_name" == "Minecraft" ]; then
+	killall compton
+else
+	compton-start
+fi
+
