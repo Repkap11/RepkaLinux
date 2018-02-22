@@ -1,0 +1,5 @@
+Package: RepkaLinux
+Version: 0.1
+Maintainer: Paul Repka
+Architecture: all
+Description: All the packages for RepkaLinux
