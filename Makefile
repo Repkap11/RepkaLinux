@@ -1,34 +1,42 @@
 #Start top level commands
+PACKAGE_NAME = repkalinux
 
-#Commands that require sudo
-test: untest build install
-	echo "Test Done..."
+default: test
+
+#Installs packages needed for this project
+configure:
+	sudo apt install gdebi
+
+test: Makefile
+	#Force uninstall before build and install
+	$(MAKE) untest
+	$(MAKE) build install
+	@echo "Test Done..."
 
 untest: clean uninstall
+	sudo apt remove dunst -y
 
 install: build
-	echo "\n##Starting Install###"
-	sudo dpkg -i out/RepkaLinux.deb
-	echo "##Ending Install###\n"
+	@echo "\n##Starting Install###"
+	sudo gdebi --n out/$(PACKAGE_NAME).deb
+	#sudo apt install --only-upgrade $(PACKAGE_NAME)
+	sudo apt install -f $(PACKAGE_NAME)
+	@echo "##Ending Install###\n"
 
 uninstall:
-	sudo dpkg --purge RepkaLinux
+	sudo dpkg --purge $(PACKAGE_NAME)
 
-#Commands which don't require sudo
-build: out/RepkaLinux.deb
+build: out/$(PACKAGE_NAME).deb
 
 clean:
 	rm -rf out
 
-#Start package implementation
 PACKAGE_DEPENDS = $(wildcard DEBIAN/*)
 
 out:
-	mkdir -p out
+	@mkdir -p out
 
-out/RepkaLinux.deb: out $(PACKAGE_DEPENDS)
-	dpkg-deb --build package out/RepkaLinux.deb
-
-
+out/$(PACKAGE_NAME).deb: out $(PACKAGE_DEPENDS)
+	dpkg-deb --build package $@
 
 .PHONY: install uninstall test build clean untest

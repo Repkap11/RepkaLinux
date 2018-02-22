@@ -2,4 +2,5 @@ Package: RepkaLinux
 Version: 0.1
 Maintainer: Paul Repka
 Architecture: all
-Description: All the packages for RepkaLinux
+Description: All the packages for RepkLinux
+Depends: git, i3-wm, feh, dunst
