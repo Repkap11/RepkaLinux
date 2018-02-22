@@ -1,43 +1,54 @@
 #Start top level commands
-PACKAGE_NAME = repkalinux
-TEST_DEPEND = dunst
+PACKAGE_NAME := repkalinux
+TEST_DEPEND := dunst
 
-default: test
+OUT_DEB_FILE := out/$(PACKAGE_NAME).deb
+REMOTE_USERNAME := paul
+REMOTE_SERVER := repkap11.com
+REMOTE_FILE := /home/paul/website/$(PACKAGE_NAME).deb
+REMOTE_TARGET := $(REMOTE_USERNAME)@$(REMOTE_SERVER):$(REMOTE_FILE)
+
+default: build install deploy
 
 #Installs packages needed for this project
 configure:
 	sudo apt install gdebi
 
-test: Makefile
-	@#Force uninstall before build and install
-	@$(MAKE) untest
-	@$(MAKE) build install
-	@echo "Test Done..."
+deploy: build
+	@echo "Copying $(OUT_DEB_FILE) to $(REMOTE_TARGET)"
+	rsync --update $(OUT_DEB_FILE) $(REMOTE_TARGET)
 
-untest: clean uninstall
+test: clean uninstall
+	@#Uninstall a package to make sure it gets reinstalled
 	sudo apt remove $(TEST_DEPEND) -y
+	$(MAKE) build install deploy
+	@#Make sure the test depend is installed again
+	which $(TEST_DEPEND)
+	@echo "Test Finished Successfully"
 
 install: build
 	@echo "\n### Starting Install ###"
-	sudo gdebi --n out/$(PACKAGE_NAME).deb
-	#sudo apt install --only-upgrade $(PACKAGE_NAME)
+	sudo gdebi --n $(OUT_DEB_FILE)
+	@#sudo apt install --only-upgrade $(PACKAGE_NAME)
 	sudo apt install -f $(PACKAGE_NAME)
 	@echo "### Ending Install ###\n"
 
 uninstall:
 	sudo dpkg --purge $(PACKAGE_NAME)
 
-build: out/$(PACKAGE_NAME).deb
+build: $(OUT_DEB_FILE)
 
 clean:
 	rm -rf out
 
-PACKAGE_DEPENDS = $(wildcard DEBIAN/*)
+PACKAGE_DEPENDS:=$(shell find package)
+#Print the PACKAGE_DEPENDS
+#$(info $$PACKAGE_DEPENDS is [${PACKAGE_DEPENDS}])
 
 out:
 	@mkdir -p out
 
-out/$(PACKAGE_NAME).deb: out $(PACKAGE_DEPENDS)
+$(OUT_DEB_FILE): out $(PACKAGE_DEPENDS)
 	dpkg-deb --build package $@
 
-.PHONY: install uninstall test build clean untest
+.PHONY: install uninstall test build clean untest default configure deploy
